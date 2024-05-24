@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Bootstrap Website Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/dist/styles/style.css">
+    <style>
+        /* Reset some default styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+        }
+
+        header {
+            background: #333;
+            color: #fff;
+            padding: 10px 0;
+            text-align: center;
+        }
+
+        header .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        nav ul li {
+            display: inline;
+            margin: 0 10px;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        main {
+            display: flex;
+            padding: 20px;
+        }
+
+        aside {
+            flex: 1;
+            margin-right: 20px;
+        }
+
+        aside h2 {
+            margin-bottom: 10px;
+        }
+
+        aside ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        aside ul li {
+            margin-bottom: 5px;
+        }
+
+        aside ul li a {
+            color: #333;
+            text-decoration: none;
+        }
+
+        .products {
+            flex: 3;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+        }
+
+        .product {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .product img {
+            width: 30%;
+            height: auto;
+        }
+
+        .product h3 {
+            margin: 10px 0;
+        }
+
+        .product button {
+            background: #333;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        footer {
+            background: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h3 style="font-family:verdana; color:  rgb(202, 211, 222); text-align: center;">ClothesFashionShop</h3>
+        <nav>
+            <ul>
+                <li><a href="/src/shoppy.html">Нүүр</a></li>
+                <li><a href="#">Products</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <aside>
+            <h2>Ангилал</h2>
+            <ul>
+                <li><a href="гадуур хувцас.html">гадуур хувцас</a></li>
+                <li><a href="гутал.html">гутал</a></li>
+                <li><a href="даашинз.html">даашинз</a></li>
+                <li><a href="дээгүүр хувцас.html">дээгүүр хувцас</a></li>
+                <li><a href="Цүнх.html">Цүнх</a></li>
+                <li><a href="Өмд.html">Өмд</a></li>
+            </ul>
+        </aside>
+        <section class="products">
+
+            <!-- <div class="product">
+                <img src="v.png" alt="Product 2">
+                <h3>Product 2</h3>
+                <p>$20.00</p>
+                <button>Add to Cart</button>
+            </div> -->
+            <!-- Add more products as needed -->
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 MyShop. All rights reserved.</p>
+    </footer>
+    <section class="cus">
+        <div class="bagts-content">
+
+        </div>
+    </section>
+
+    <script>
+        const productsContainer = document.querySelector(".products");
+
+        async function fetchProductsByCategory(url, categoryId) {
+            try {
+                let response = await fetch(`${url}/${categoryId}`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                let productsData = await response.json();
+                productsData.forEach(product => {
+                    let { name, price } = product;
+                    productsContainer.innerHTML += `
+            <div class="product">
+                <img src="/dist/img/${name}.png" alt="${name}">
+                    <h3>${name}</h3>
+                    <div class="price">${price}</div>
+                    <small class="currency">MNT</small>
+                    <div class="type">Турк</div>
+                    <button><a class="order-link" href="zahialga.html">Захиалга өгөх</a></button>
+            </div>`;
+                });
+            } catch (err) {
+                console.error('Error fetching products:', err);
+            }
+        }
+
+        // Assuming category ID 1 for the example
+        fetchProductsByCategory("http://localhost:8080/api/products/category", 6);
+    </script>
+</body>
+
+</html>
