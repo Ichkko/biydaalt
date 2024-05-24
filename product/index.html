@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Products</title>
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+    <div class="search-container">
+        <h3>Бүтээгдэхүүнийг нэрээр хайх</h3>
+        <input type="text" id="search-input" placeholder="Search for products...">
+    </div>
+    <div class="products"></div>
+
+    <script>
+        const productsContainer = document.querySelector(".products");
+        const searchInput = document.querySelector("#search-input");
+
+        searchInput.addEventListener("input", () => {
+            const query = searchInput.value;
+            if (query.length > 0) {
+                fetchProductsByName(query);
+            } else {
+                productsContainer.innerHTML = "";
+            }
+        });
+
+        async function fetchProductsByName(name) {
+            try {
+                let response = await fetch(`http://localhost:8080/api/products/${name}`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                let productsData = await response.json();
+                productsContainer.innerHTML = "";
+                productsData.forEach(product => {
+                    let { name, price, description } = product;
+                    productsContainer.innerHTML += `
+                        <div class="product">
+                            <img src="/img/img/${name}.png" alt="${name}">
+                            <p>${name}</p>
+                            <div class="price">Үнэ:${price}
+                            <small class="currency">MNT</small></div>
+                           
+                        </div>`;
+                });
+            } catch (err) {
+                console.error('Error fetching products:', err);
+            }
+        }
+    </script>
+</body>
+
+</html>
